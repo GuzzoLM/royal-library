@@ -20,7 +20,12 @@ public class BookService(IBookRepository repository) : IBookService
 
         if (bookReaction is null)
         {
-            bookReaction = new BookReactions();
+            bookReaction = new BookReactions
+            {
+                UserId = UserId,
+                BookId = bookId
+            };
+
             await repository.CreateBookReaction(bookReaction);
         }
 
@@ -35,7 +40,12 @@ public class BookService(IBookRepository repository) : IBookService
 
         if (bookReaction is null)
         {
-            bookReaction = new BookReactions();
+            bookReaction = new BookReactions
+            {
+                UserId = UserId,
+                BookId = bookId
+            };
+
             await repository.CreateBookReaction(bookReaction);
         }
 
@@ -50,7 +60,12 @@ public class BookService(IBookRepository repository) : IBookService
 
         if (bookReaction is null)
         {
-            bookReaction = new BookReactions();
+            bookReaction = new BookReactions
+            {
+                UserId = UserId,
+                BookId = bookId
+            };
+
             await repository.CreateBookReaction(bookReaction);
         }
 

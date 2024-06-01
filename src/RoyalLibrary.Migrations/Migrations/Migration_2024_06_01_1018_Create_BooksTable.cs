@@ -9,7 +9,7 @@ public class Migration_2024_06_01_1018_Create_BooksTable : ForwardOnlyMigration
     {
         Create.Table("books")
             .InSchema("dbo")
-            .WithColumn("book_id").AsInt32().PrimaryKey()
+            .WithColumn("book_id").AsInt32().Identity().PrimaryKey()
             .WithColumn("title").AsString(100).NotNullable()
             .WithColumn("first_name").AsString(50).NotNullable()
             .WithColumn("last_name").AsString(50).NotNullable()

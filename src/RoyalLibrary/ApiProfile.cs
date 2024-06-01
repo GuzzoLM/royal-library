@@ -9,5 +9,6 @@ public class ApiProfile : Profile
     public ApiProfile()
     {
         CreateMap<BookFilterViewModel, BookFilter>();
+        CreateMap<Book, BookViewModel>();
     }
 }

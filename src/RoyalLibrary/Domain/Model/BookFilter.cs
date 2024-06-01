@@ -1,6 +1,6 @@
 namespace RoyalLibrary.Domain.Model;
 
-public struct BookFilter
+public class BookFilter
 {
     public int? UserId { get; set; }
 

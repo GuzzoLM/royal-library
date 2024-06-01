@@ -1,6 +1,6 @@
 namespace RoyalLibrary.ViewModels;
 
-public struct BookReactionViewModel
+public class BookReactionViewModel
 {
     public int BookId { get; set; }
 

@@ -1,6 +1,6 @@
 namespace RoyalLibrary.ViewModels;
 
-public struct BookFilterViewModel
+public class BookFilterViewModel
 {
     public string? Author { get; set; }
 

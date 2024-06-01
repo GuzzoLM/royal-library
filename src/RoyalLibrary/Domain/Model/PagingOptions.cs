@@ -1,10 +1,14 @@
 namespace RoyalLibrary.Domain.Model;
 
-public struct PagingOptions
+public class PagingOptions
 {
-    public int Offset { get; set; }
+    public PagingOptions()
+    {
+    }
 
-    public int Limit { get; set; }
+    public int Offset { get; set; } = 0;
+
+    public int Limit { get; set; } = 20;
 
     public void NextPage()
     {

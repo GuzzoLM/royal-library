@@ -9,7 +9,7 @@ public class Migration_2024_06_01_1044_Create_BookReactionsTable : ForwardOnlyMi
     {
         Create.Table("books_reactions")
             .InSchema("dbo")
-            .WithColumn("books_reaction_id").AsInt32().PrimaryKey()
+            .WithColumn("books_reaction_id").AsInt32().Identity().PrimaryKey()
             .WithColumn("book_id").AsInt32().NotNullable().ForeignKey("books", "book_id")
             .WithColumn("user_id").AsInt32().NotNullable()
             .WithColumn("own").AsBoolean().NotNullable()

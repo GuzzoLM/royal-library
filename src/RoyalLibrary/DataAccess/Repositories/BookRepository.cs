@@ -13,9 +13,7 @@ public class BookRepository(LibraryContext context) : IBookRepository
     {
         var src = context.Set<Book>();
 
-        var filterExpression = ToExpression(filter);
-
-        var query = src.Where(filterExpression);
+        var query = Filter(filter, src.AsQueryable());
 
         var paginatedQuery = query
             .OrderBy(x => x.Title)
@@ -51,40 +49,34 @@ public class BookRepository(LibraryContext context) : IBookRepository
         await context.SaveChangesAsync();
     }
 
-    private Expression<Func<Book, bool>> ToExpression(BookFilter filter)
+    private IQueryable<Book> Filter(BookFilter filter, IQueryable<Book> query)
     {
-        Expression<Func<Book, bool>> expression = x => true;
-
         if (!string.IsNullOrWhiteSpace(filter.Author))
         {
-            Expression<Func<Book, bool>> andExpression = x => $"{x.FirstName} {x.LastName}".Contains(filter.Author);
-            expression = Expression.Lambda<Func<Book, bool>>(Expression.AndAlso(expression, andExpression));
+            query = query.Where(x => $"{x.FirstName} {x.LastName}".Contains(filter.Author));
         }
 
         if (!string.IsNullOrWhiteSpace(filter.Isbn))
         {
-            Expression<Func<Book, bool>> andExpression = x => x.Isbn.Contains(filter.Isbn);
-            expression = Expression.Lambda<Func<Book, bool>>(Expression.AndAlso(expression, andExpression));
+            query = query.Where(x => x.Isbn.Contains(filter.Isbn));
         }
 
         if (filter.Own.HasValue)
         {
-            Expression<Func<Book, bool>> andExpression = x => x.BookReactions.Any(br => br.UserId == filter.UserId && br.Own == filter.Own.Value);
-            expression = Expression.Lambda<Func<Book, bool>>(Expression.AndAlso(expression, andExpression));
+            query = query.Where(x => x.BookReactions.Any(br => br.UserId == filter.UserId && br.Own) == filter.Own.Value);
         }
 
         if (filter.Love.HasValue)
         {
-            Expression<Func<Book, bool>> andExpression = x => x.BookReactions.Any(br => br.UserId == filter.UserId && br.Love == filter.Love.Value);
-            expression = Expression.Lambda<Func<Book, bool>>(Expression.AndAlso(expression, andExpression));
+            query = query.Where(x => x.BookReactions.Any(br => br.UserId == filter.UserId && br.Love) == filter.Love.Value);
         }
 
         if (filter.WantToRead.HasValue)
         {
-            Expression<Func<Book, bool>> andExpression = x => x.BookReactions.Any(br => br.UserId == filter.UserId && br.WantToRead == filter.WantToRead.Value);
-            expression = Expression.Lambda<Func<Book, bool>>(Expression.AndAlso(expression, andExpression));
+            query = query.Where(x =>
+                x.BookReactions.Any(br => br.UserId == filter.UserId && br.WantToRead) == filter.WantToRead.Value);
         }
 
-        return expression;
+        return query;
     }
 }
